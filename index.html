@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        li {
+            list-style: none;
+        }
+
+
+        #box {
+            width: 30rem;
+            height: 20rem;
+            /* 奥特曼背景 */
+            /* background-image: url(https://www.bing.com/th/id/OGC.5b8104079e240c6777323305d7c5ea7d?pid=1.7&rurl=http%3a%2f%2fp2.ssl.cdn.btime.com%2ft01b82da4c536797ebe.gif%3fsize%3d423x235&ehk=b0hCzHJP0Q%2bSaEsBeRG12lDyvLM%2fTX7uJyVzz%2bfKvhI%3d); */
+            /* 雪景背景 */
+            /* background-image: url(https://www.bing.com/th/id/OGC.3b5238abdec4631058c79f8b89f095c8?pid=1.7&rurl=https%3a%2f%2fimg.zcool.cn%2fcommunity%2f0174be5714982432f8758c9b83d8cb.gif&ehk=cMLXfF8oHuZr7D9LbtG%2fh6iZlFSYjoUBWMPOrTUx3oI%3d); */
+            /* 森林背景 */
+            background-image: url(https://img.zcool.cn/community/01e86d561f39d232f8755701af4285.jpg@1280w_1l_2o_100sh.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 1rem;
+            margin: 5rem auto;
+            padding: 3rem 0;
+            box-sizing: border-box;
+        }
+
+        #box p {
+            margin: 1rem auto;
+            min-width: 15rem;
+            height: 4rem;
+            background-color: rgba(255, 255, 255, .7);
+            text-align: center;
+            line-height: 4rem;
+            font-family: '方正粗黑宋简体';
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #box input {
+            display: block;
+            padding: 0 1rem;
+            width: 8rem;
+            height: 2rem;
+            margin: 0 auto;
+            border: none;
+            outline: none;
+        }
+
+
+
+        #box #sub {
+            display: block;
+            margin: 0 auto;
+            width: 7rem;
+            height: 2rem;
+            margin-top: 3rem;
+            background-color: rgba(0, 0, 0, .5);
+            line-height: 2rem;
+            text-align: center;
+            color: aliceblue;
+            cursor: pointer;
+            box-shadow: inset 0px 0px 5px #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #box #sub span {
+            position: absolute;
+            top: -20px;
+            left: -140px;
+            display: block;
+            width: 200px;
+            height: 7px;
+            background-color: #fff;
+            opacity: .7;
+            transform: rotate(-30deg);
+            transition: all .5s;
+        }
+
+        #box #sub:hover span {
+            top: 0;
+            left: 100px;
+        }
+
+
+        .tanKuang {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            padding: 3rem;
+            transform: translate(-50%, -50%);
+            background-color: rgba(11, 10, 10, .6);
+        }
+
+        .tanKuang p {
+            width: 100%;
+            height: 3rem;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            line-height: 3rem;
+        }
+
+        .switch {
+            width: 16rem;
+            margin: 0 auto;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .switch button {
+            /* width: 5rem; */
+            height: 2rem;
+            background-color: rgba(0, 0, 0, .5);
+            border: 1px solid black;
+            line-height: 2rem;
+            text-align: center;
+            color: aliceblue;
+            cursor: pointer;
+            padding: 0 2rem;
+            box-shadow: 0px 0px 5px black;
+        }
+
+        .none {
+            display: none;
+        }
+
+        .block {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 游戏界面 -->
+    <div id="box" class="none">
+        <p id="text"></p>
+        <form action="#" onsubmit="return dosubmit()" target="stop">
+            <input type="text" id="value" placeholder="请输入数字" />
+            <button id="sub" onclick="getConfirm()">
+                确认
+                <span></span>
+            </button>
+        </form>
+        <iframe name="stop" style="display:none;"></iframe>
+    </div>
+
+    <!-- 询问用户是否开始界面 -->
+    <div id="bounced" class="tanKuang black">
+        <p>是否开始游戏？</p>
+        <div class="switch">
+            <button id="start" onclick="start()">是</button>
+            <button onclick="exit()">否</button>
+        </div>
+    </div>
+
+    <!-- 游戏失败界面 -->
+    <div id="failure" class="tanKuang none">
+        <p style="color: red; font-size: 30px;">游戏失败!!!</p>
+        <div class="switch">
+            <button onclick="start()">重新开始</button>
+            <button onclick="exit()">退出游戏</button>
+        </div>
+    </div>
+
+    <!-- 过关界面 -->
+    <div id="successful" class="tanKuang none">
+        <p style=" font-size: 30px;">恭喜你猜对了！！！</p>
+        <div class="switch">
+            <button onclick="start()">再来一局</button>
+            <button onclick="exit()">退出游戏</button>
+        </div>
+    </div>
+
+    <!-- 退出游戏界面 -->
+    <div id="exit-youxi" class="tanKuang none">
+        <p style="color: red; font-size: 30px;">游戏已退出</p>
+    </div>
+
+    <script>
+        // 声明的变量
+        var text = document.getElementById('text')
+        var value = document.getElementById('value').value
+        var submit = document.getElementById('sub')
+        var box = document.getElementById('box')
+        var bounced = document.getElementById('bounced')
+        var failure = document.getElementById('failure')
+        var successful = document.getElementById('successful')
+        var exit_youxi = document.getElementById('exit-youxi')
+        var i = 10
+        var num;
+
+        // 开关界面
+        // 开始游戏按钮
+        function start() {
+            // 获取类名
+            let start1 = bounced.getAttribute('class')
+            let start2 = failure.getAttribute('class')
+            let start3 = successful.getAttribute('class')
+            // 截取第二个类名
+            let a = start1.substr(start1.lastIndexOf(" ") + 1, 5)
+            let b = start2.substr(start2.lastIndexOf(" ") + 1, 5)
+            let c = start3.substr(start3.lastIndexOf(" ") + 1, 5)
+            console.log(c);
+            if (a == 'black') {
+                bounced.classList.remove('block')
+                bounced.classList.add('none')
+                num = digitalGames()
+                document.getElementById('value').focus()
+            } else if (b == 'block') {
+                failure.classList.remove('block')
+                failure.classList.add('none')
+                num = digitalGames()
+                document.getElementById('value').focus()
+            } else if (c == 'block') {
+                console.log('yes');
+                successful.classList.remove('block')
+                successful.classList.add('none')
+                num = digitalGames()
+                document.getElementById('value').focus()
+            }
+
+        }
+        // 结束游戏按钮
+        function exit() {
+            let start1 = bounced.getAttribute('class')
+            let start2 = failure.getAttribute('class')
+            let start3 = successful.getAttribute('class')
+            let a = start1.substr(start1.lastIndexOf(" ") + 1, 5)
+            let b = start2.substr(start2.lastIndexOf(" ") + 1, 5)
+            let c = start3.substr(start3.lastIndexOf(" ") + 1, 5)
+            console.log(c);
+            if (a == 'black') {
+                bounced.classList.remove('block')
+                bounced.classList.add('none')
+                exit_youxi.classList.add('block')
+            } else if (b == 'block') {
+                failure.classList.remove('block')
+                failure.classList.add('none')
+                exit_youxi.classList.add('block')
+            } else if (c == 'block') {
+                console.log('yes');
+                successful.classList.remove('block')
+                successful.classList.add('none')
+                exit_youxi.classList.add('block')
+            }
+        }
+
+
+        // 猜数字小游戏
+
+        // 随机产生一个整数
+        function randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min
+        }
+        // 游戏函数
+        function digitalGames() {
+            // 让用户自定义数值的范围
+            let num1 = +prompt('请输入最小范围：')
+            let num2 = +prompt('请输入最大范围：')
+            box.classList.remove('none')
+            box.classList.add('block')
+            // 在用户自定义的数值范围中，随机产生一个整数
+            let num = randomNum(num1, num2)
+            // 提示内容
+            text.innerHTML = '数字在' + num1 + '到' + num2 + '中哟！'
+            // 把随机值返回给函数
+            return num
+        }
+
+        // 游戏运行过程
+        function getConfirm() {
+            var value = document.getElementById('value').value
+            document.getElementById('value').focus()
+            // 游戏正式开始运行
+
+            if (i == 1) {
+                console.log(2);
+                box.classList.remove('block')
+                box.classList.add('none')
+                failure.classList.remove('none')
+                failure.classList.add('block')
+                document.getElementById('value').value = ''
+                i = 10
+            } else {
+                while (true) {
+                    // 用户猜的值
+                    let mynum = value
+                    // 判断用户是否猜对
+                    if (mynum > num) {
+                        // 当用户猜大的时候弹出的提示框
+                        i-- //
+                        text.innerHTML = '你猜的数大了！您还有' + i + '次机会！！！'
+                        document.getElementById('value').value = ''
+                        document.getElementById('value').focus()
+                        // alert('你猜的数大了！您还有' + i + '次机会！！！')
+                        break;
+                    } else if (mynum < num) {
+                        // 当用户猜小的时候弹出的提示框
+                        i--
+                        text.innerHTML = '你猜的数小了！您还有' + i + '次机会！！！'
+                        document.getElementById('value').value = ''
+                        document.getElementById('value').focus()
+                        // alert('你猜的数小了！您还有' + i + '次机会！！！')
+                        break;
+                    } else {
+                        // 当用户猜对的时候弹出的提示框
+                        i--
+                        // alert('恭喜你答对了，但是没有奖励')
+                        box.classList.remove('block')
+                        box.classList.add('none')
+                        successful.classList.remove('none')
+                        successful.classList.add('block')
+                        document.getElementById('value').value = ''
+                        i = 10
+                        break;
+                    }
+                }
+            }
+
+        }
+
+    </script>
+
+</html>
+</body>
